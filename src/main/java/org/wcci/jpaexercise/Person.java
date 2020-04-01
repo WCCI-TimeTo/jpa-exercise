@@ -1,9 +1,6 @@
 package org.wcci.jpaexercise;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +12,8 @@ public class Person {
     private String name;
     @ManyToMany
     private Set<Person> friends;
-
+    @ManyToMany(mappedBy = "friends")
+    private Set<Person> friendsWith;
     protected Person(){}
     public Person(String name) {
         this.friends = new HashSet<>();
@@ -36,6 +34,18 @@ public class Person {
 
     public Set<Person> getFriends() {
         return friends;
+    }
+
+    public Set<Person> getFriendsWith() {
+        return friendsWith;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

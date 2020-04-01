@@ -48,9 +48,16 @@ public class JpaWiringTest {
         personRepo.save(anotherTestFriend);
         testPerson.addFriend(testFriend);
         personRepo.save(testPerson);
+        testFriend.addFriend(anotherTestFriend);
+        personRepo.save(testFriend);
+
         flushAndClear();
+
         Person retrievedPerson = personRepo.findById(testPerson.getId()).get();
         assertThat(retrievedPerson.getFriends()).contains(testFriend);
+
+        Person retrievedFriend = personRepo.findById(testFriend.getId()).get();
+        assertThat(retrievedFriend.getFriendsWith()).contains(testPerson, anotherTestFriend);
     }
 
     private void flushAndClear() {
